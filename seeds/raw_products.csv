@@ -1,0 +1,21 @@
+product_id,product_name,sku,category,subcategory,department,brand,unit_cost,list_price,weight_kg,is_active,launch_date
+P001,Wireless Mouse Pro,WMP-001,Electronics,Accessories,Technology,TechGear,25.00,49.99,0.15,true,2023-01-10
+P002,USB-C Hub 7-Port,UCH-007,Electronics,Accessories,Technology,TechGear,35.00,69.99,0.12,true,2023-02-15
+P003,Ergonomic Keyboard,EKB-102,Electronics,Accessories,Technology,ErgoTech,45.00,89.99,0.85,true,2023-03-20
+P004,Monitor Stand Deluxe,MSD-001,Electronics,Accessories,Technology,TechGear,30.00,59.99,1.20,true,2023-04-05
+P005,Webcam HD 1080p,WCH-108,Electronics,Accessories,Technology,VisionTech,40.00,79.99,0.18,true,2023-05-12
+P006,Laptop Sleeve 15in,LSL-015,Electronics,Cases,Technology,TravelGear,15.00,29.99,0.25,true,2023-06-18
+P007,Wireless Charger Pad,WCP-001,Electronics,Chargers,Technology,PowerUp,12.00,24.99,0.08,true,2023-07-22
+P008,Phone Stand Adjustable,PSA-001,Electronics,Accessories,Technology,DeskPro,18.00,34.99,0.20,true,2023-08-30
+P009,Cable Management Kit,CMK-001,Electronics,Accessories,Technology,OrganizeIt,8.00,15.99,0.05,true,2023-09-14
+P010,Portable Power Bank,PPB-200,Electronics,Chargers,Technology,PowerUp,22.00,44.99,0.35,true,2023-10-25
+P011,Desk Mat XL,DMX-001,Office Supplies,Desk Mats,Office,FreshWork,25.00,49.99,0.90,true,2023-11-08
+P012,Notebook Set 3-Pack,NSP-003,Office Supplies,Notebooks,Office,WritePro,10.00,19.99,0.40,true,2023-12-01
+P013,Pen Set Premium,PSP-010,Office Supplies,Pens,Office,WritePro,8.00,15.99,0.12,true,2024-01-10
+P014,Stapler Heavy Duty,SHD-001,Office Supplies,Staplers,Office,OfficeMax,15.00,29.99,0.45,true,2024-02-15
+P015,File Organizer Tower,FOT-001,Office Supplies,Storage,Office,OrganizeIt,35.00,69.99,1.50,true,2024-03-20
+P016,Whiteboard 24x18,WB-024,Office Supplies,Boards,Office,DisplayPro,40.00,79.99,2.80,true,2024-04-12
+P017,Sticky Notes Variety,SNV-100,Office Supplies,Notes,Office,StickIt,6.00,11.99,0.15,true,2024-05-08
+P018,Desk Lamp LED,DL-001,Office Supplies,Lighting,Office,BrightWork,28.00,54.99,1.10,true,2024-06-14
+P019,Chair Cushion Premium,CCP-001,Office Supplies,Seating,Office,ComfortPro,32.00,64.99,0.65,true,2024-07-18
+P020,Footrest Ergonomic,FRE-001,Office Supplies,Seating,Office,ComfortPro,45.00,89.99,1.80,true,2024-08-22

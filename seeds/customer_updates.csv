@@ -1,0 +1,5 @@
+customer_id,email_change_date,old_email,new_email,old_status,new_status,old_region,new_region
+C004,2024-02-15,sarah.williams@oldemail.com,sarah.williams@email.com,active,churned,NA,NA
+C008,2024-06-20,lisa.wilson@oldemail.com,lisa.wilson@email.com,active,inactive,APAC,APAC
+C012,2024-05-10,maria.thomas@oldemail.com,maria.thomas@email.com,active,churned,LATAM,LATAM
+C016,2024-08-01,ashley.martin@oldemail.com,ashley.martin@email.com,active,inactive,NA,NA

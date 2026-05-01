@@ -1,0 +1,4 @@
+store_id,store_name,store_type,address,city,state,country,region,manager,opened_date
+S001,Downtown Tech Hub,flagship,123 Main Street,New York,NY,USA,NA,Sarah Johnson,2020-01-15
+S002,Westside Electronics,standard,456 West Avenue,Los Angeles,CA,USA,NA,Mike Chen,2021-03-20
+S003,Sao Paulo Store,international,Av. Paulista 1000,Sao Paulo,SP,Brazil,LATAM,Carlos Silva,2022-06-10

@@ -1,0 +1,178 @@
+version: 2
+
+models:
+  # Core Dimensions
+  - name: dim_customer_scd1
+    description: Customer dimension with SCD Type 1 - overwrites historical data with current values only
+    columns:
+      - name: customer_id
+        description: Natural key for customer
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: Current email address (SCD1 - always latest)
+      - name: status
+        description: Current customer status
+      - name: updated_at
+        description: Timestamp of last update
+
+  - name: dim_customer_scd2
+    description: Customer dimension with SCD Type 2 - maintains full history of customer attribute changes
+    columns:
+      - name: customer_key
+        description: Surrogate key for SCD2 version
+        tests:
+          - unique
+      - name: customer_id
+        description: Natural key for customer
+        tests:
+          - not_null
+      - name: email
+        description: Email at time of record
+      - name: status
+        description: Customer status at time of record
+      - name: region
+        description: Customer region at time of record
+      - name: valid_from
+        description: Start date of version validity
+      - name: valid_to
+        description: End date of version validity (null = current)
+      - name: is_current
+        description: Boolean flag for current version
+        tests:
+          - not_null
+
+  - name: dim_product_star
+    description: Product dimension with Star Schema - denormalized for optimal BI query performance
+    columns:
+      - name: product_id
+        description: Primary key for product
+        tests:
+          - unique
+          - not_null
+      - name: category
+        description: Product category (denormalized)
+      - name: subcategory
+        description: Product subcategory (denormalized)
+      - name: margin_pct
+        description: Product margin percentage
+
+  - name: dim_product_snowflake
+    description: Product dimension with Snowflake Schema - normalized through subcategory to category
+    columns:
+      - name: product_id
+        description: Primary key for product
+        tests:
+          - unique
+          - not_null
+      - name: category_id
+        description: Foreign key to category (snowflake)
+      - name: subcategory_id
+        description: Foreign key to subcategory (snowflake)
+      - name: category_name
+        description: Category name from normalized table
+
+  - name: dim_store
+    description: Store dimension for geographic and operational analysis
+    columns:
+      - name: store_id
+        description: Primary key for store
+        tests:
+          - unique
+          - not_null
+      - name: region
+        description: Store region
+
+  - name: dim_date
+    description: Date dimension for time-series analysis - conformed across all fact tables
+    columns:
+      - name: date_key
+        description: Surrogate key for date
+        tests:
+          - unique
+          - not_null
+      - name: date
+        description: Calendar date
+      - name: year
+        description: Calendar year
+      - name: quarter
+        description: Calendar quarter
+      - name: month_name
+        description: Month name
+      - name: is_weekend
+        description: Boolean flag for weekend
+
+  # Fact Tables
+  - name: fact_orders
+    description: Fact table for order-level metrics - central to star schema for order analytics
+    columns:
+      - name: order_id
+        description: Primary key for order
+        tests:
+          - unique
+          - not_null
+      - name: date_key
+        description: Foreign key to date dimension
+      - name: customer_id
+        description: Foreign key to customer dimension
+      - name: store_id
+        description: Foreign key to store dimension
+      - name: total_amount
+        description: Total order amount
+        tests:
+          - not_null
+      - name: subtotal
+        description: Order subtotal
+      - name: is_delivered_flag
+        description: Flag for delivered orders
+
+  - name: fact_order_items
+    description: Fact table for order line items - detailed grain for product analytics
+    columns:
+      - name: order_item_id
+        description: Primary key for order item
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: Foreign key to order
+      - name: product_id
+        description: Foreign key to product
+      - name: date_key
+        description: Foreign key to date dimension
+      - name: line_total
+        description: Line item total
+      - name: net_line_total
+        description: Line total after discounts
+      - name: profit
+        description: Line item profit (revenue - cost)
+
+  # Report Tables
+  - name: rpt_product_performance
+    description: Product performance report combining sales, margin, and KPI metrics
+    columns:
+      - name: product_id
+        description: Product identifier
+      - name: total_revenue
+        description: Total revenue from product
+        tests:
+          - not_null
+      - name: total_profit
+        description: Total profit from product
+      - name: unique_customers
+        description: Count of unique customers who purchased product
+
+  - name: rpt_customer_performance
+    description: Customer performance report with LTV, order frequency, and behavioral metrics
+    columns:
+      - name: customer_id
+        description: Customer identifier
+      - name: total_revenue
+        description: Total revenue from customer
+        tests:
+          - not_null
+      - name: customer_tier
+        description: Customer value tier (High/Medium/Low Value)
+      - name: avg_order_value
+        description: Average order value for customer

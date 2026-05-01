@@ -1,0 +1,94 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Staged customer data with derived fields for analytics
+    columns:
+      - name: customer_id
+        description: Primary key for customer
+        tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: Concatenated first and last name
+      - name: is_active
+        description: Boolean flag indicating if customer is active
+      - name: acquisition_type
+        description: Simplified acquisition channel (organic, paid, other)
+
+  - name: stg_products
+    description: Staged product data with margin calculations
+    columns:
+      - name: product_id
+        description: Primary key for product
+        tests:
+          - unique
+          - not_null
+      - name: product_status
+        description: Human-readable product status
+      - name: margin_amount
+        description: List price minus unit cost
+      - name: margin_pct
+        description: Margin as percentage of list price
+
+  - name: stg_orders
+    description: Staged order data with derived flags and date parts
+    columns:
+      - name: order_id
+        description: Primary key for order
+        tests:
+          - unique
+          - not_null
+      - name: is_completed
+        description: Boolean flag for delivered orders
+      - name: is_returned_or_cancelled
+        description: Boolean flag for problematic orders
+      - name: order_year
+        description: Year extracted from order date
+
+  - name: stg_order_items
+    description: Staged order line items with discount calculations
+    columns:
+      - name: order_item_id
+        description: Primary key for order item
+        tests:
+          - unique
+          - not_null
+      - name: net_line_total
+        description: Gross line total minus discount
+
+  - name: stg_stores
+    description: Staged store data with derived flags
+    columns:
+      - name: store_id
+        description: Primary key for store
+        tests:
+          - unique
+          - not_null
+      - name: is_flagship
+        description: Boolean flag for flagship stores
+
+  - name: stg_categories
+    description: Product category taxonomy
+    columns:
+      - name: category_id
+        description: Primary key for category
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_subcategories
+    description: Product subcategory taxonomy linked to categories
+    columns:
+      - name: subcategory_id
+        description: Primary key for subcategory
+        tests:
+          - unique
+          - not_null
+      - name: category_id
+        description: Foreign key to parent category
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_categories')
+              field: category_id

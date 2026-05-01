@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: int_product_snowflake
+    description: Snowflake schema intermediate - Product -> Subcategory -> Category normalization
+    columns:
+      - name: product_id
+        description: Primary key for product
+        tests:
+          - unique
+          - not_null
+      - name: category_id
+        description: Foreign key to category (creates snowflake)
+      - name: subcategory_id
+        description: Foreign key to subcategory (creates snowflake)
+      - name: margin_pct
+        description: Product margin as percentage
+
+  - name: int_order_items_enriched
+    description: Enriched order items with product and order details for analytics
+    columns:
+      - name: order_item_id
+        description: Primary key for order item
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: Foreign key to order
+      - name: product_id
+        description: Foreign key to product
+      - name: net_line_total
+        description: Line total after discounts
+      - name: order_date
+        description: Date of the order
+      - name: category
+        description: Product category from enriched data

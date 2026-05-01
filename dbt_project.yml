@@ -1,0 +1,31 @@
+# dbt Project Configuration
+# Analytics Modeling Layer for E-commerce/Product Analytics
+
+name: 'analytics_modeling_layer'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures the "dispatch" strategy used to select the macro packages to load.
+dispatch:
+  - macro_packages: 'dbt_utils'
+
+# On Windows, dbt runs with a single thread by default. Change this to increase performance.
+threads: 4
+
+# Variable for target database (default: dev)
+vars:
+  target_database: 'analytics_db'
+  target_schema: 'analytics_layer'
+  
+# Query timeout (in seconds)
+query_timeout: 300
+
+# Require model names to follow naming convention
+on-run-start:
+  - "{{ log('Starting Analytics Modeling Layer build...', info=True) }}"
+
+# Freshness settings for sources
+vars:
+  ecommerce_source_freshness:
+    warn_after: {count: 12, period: hour}
+    error_after: {count: 24, period: hour}

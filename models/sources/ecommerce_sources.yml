@@ -1,0 +1,204 @@
+version: 2
+
+sources:
+  - name: ecommerce
+    description: E-commerce source data from operational systems
+    database: "{{ target_database }}"
+    schema: "{{ target_schema }}"
+    freshness:
+      warn_after: {count: 12, period: hour}
+      error_after: {count: 24, period: hour}
+    loaded_at_field: _loaded_at
+    tables:
+      - name: raw_customers
+        description: Raw customer data from CRM system
+        identifier: raw_customers
+        columns:
+          - name: customer_id
+            description: Primary key for customer
+            tests:
+              - unique
+              - not_null
+          - name: email
+            description: Customer email address
+          - name: first_name
+            description: Customer first name
+          - name: last_name
+            description: Customer last name
+          - name: signup_date
+            description: Date when customer registered
+          - name: customer_status
+            description: Current status of customer (active, inactive, churned)
+          - name: acquisition_channel
+            description: How customer was acquired (organic, paid_search, referral, etc.)
+          - name: lifetime_value
+            description: Total revenue from customer
+          - name: region
+            description: Geographic region (NA, EU, APAC, LATAM)
+          - name: country
+            description: Customer country
+
+      - name: raw_products
+        description: Product catalog data
+        identifier: raw_products
+        columns:
+          - name: product_id
+            description: Primary key for product
+            tests:
+              - unique
+              - not_null
+          - name: product_name
+            description: Product name
+          - name: sku
+            description: Stock keeping unit
+          - name: category
+            description: Product category
+          - name: subcategory
+            description: Product subcategory
+          - name: department
+            description: Department (Technology, Office)
+          - name: brand
+            description: Product brand
+          - name: unit_cost
+            description: Cost to company per unit
+          - name: list_price
+            description: Retail list price
+          - name: weight_kg
+            description: Product weight in kilograms
+          - name: is_active
+            description: Whether product is currently sold
+          - name: launch_date
+            description: Date product was introduced
+
+      - name: raw_orders
+        description: Order header data
+        identifier: raw_orders
+        columns:
+          - name: order_id
+            description: Primary key for order
+            tests:
+              - unique
+              - not_null
+          - name: order_date
+            description: Date order was placed
+          - name: customer_id
+            description: Foreign key to customer
+          - name: status
+            description: Order status (delivered, cancelled, returned)
+          - name: subtotal
+            description: Order subtotal before tax and shipping
+          - name: tax_amount
+            description: Tax applied to order
+          - name: shipping_cost
+            description: Shipping cost
+          - name: discount_amount
+            description: Discount applied
+          - name: total_amount
+            description: Total order amount
+          - name: payment_method
+            description: Payment method used
+          - name: shipping_method
+            description: Shipping method (standard, express)
+          - name: store_id
+            description: Store where order was placed
+          - name: notes
+            description: Order notes
+
+      - name: raw_order_items
+        description: Individual line items in orders
+        identifier: raw_order_items
+        columns:
+          - name: order_item_id
+            description: Primary key for order item
+            tests:
+              - unique
+              - not_null
+          - name: order_id
+            description: Foreign key to order
+          - name: product_id
+            description: Foreign key to product
+          - name: quantity
+            description: Quantity ordered
+          - name: unit_price
+            description: Price per unit
+          - name: discount_pct
+            description: Discount percentage applied
+          - name: line_total
+            description: Total for this line item
+
+      - name: raw_stores
+        description: Store location data
+        identifier: raw_stores
+        columns:
+          - name: store_id
+            description: Primary key for store
+            tests:
+              - unique
+              - not_null
+          - name: store_name
+            description: Store name
+          - name: store_type
+            description: Store type (flagship, standard, international)
+          - name: address
+            description: Store address
+          - name: city
+            description: Store city
+          - name: state
+            description: Store state/province
+          - name: country
+            description: Store country
+          - name: region
+            description: Geographic region
+          - name: manager
+            description: Store manager name
+          - name: opened_date
+            description: Date store opened
+
+      - name: raw_categories
+        description: Product category taxonomy
+        identifier: raw_categories
+        columns:
+          - name: category_id
+            description: Primary key for category
+            tests:
+              - unique
+              - not_null
+          - name: category_name
+            description: Category name
+          - name: category_description
+            description: Category description
+
+      - name: raw_subcategories
+        description: Product subcategory taxonomy
+        identifier: raw_subcategories
+        columns:
+          - name: subcategory_id
+            description: Primary key for subcategory
+            tests:
+              - unique
+              - not_null
+          - name: subcategory_name
+            description: Subcategory name
+          - name: category_id
+            description: Foreign key to category
+
+      - name: customer_updates
+        description: Customer attribute changes for SCD Type 2 tracking
+        identifier: customer_updates
+        columns:
+          - name: customer_id
+            description: Foreign key to customer
+          - name: email_change_date
+            description: Date of attribute change
+          - name: old_email
+            description: Previous email
+          - name: new_email
+            description: New email
+          - name: old_status
+            description: Previous status
+          - name: new_status
+            description: New status
+          - name: old_region
+            description: Previous region
+          - name: new_region
+            description: New region

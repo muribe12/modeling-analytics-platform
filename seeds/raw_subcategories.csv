@@ -1,0 +1,13 @@
+subcategory_id,subcategory_name,category_id
+SUB001,Accessories,CAT001
+SUB002,Cases,CAT001
+SUB003,Chargers,CAT001
+SUB004,Desk Mats,CAT002
+SUB005,Notebooks,CAT002
+SUB006,Pens,CAT002
+SUB007,Staplers,CAT002
+SUB008,Storage,CAT002
+SUB009,Boards,CAT002
+SUB010,Notes,CAT002
+SUB011,Lighting,CAT002
+SUB012,Seating,CAT002
