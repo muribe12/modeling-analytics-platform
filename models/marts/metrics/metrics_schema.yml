@@ -1,0 +1,68 @@
+version: 2
+
+metrics:
+  - name: total_revenue
+    label: Total Revenue
+    model: ref('fact_orders')
+    description: Sum of all order totals (excluding cancelled)
+    calculation_method: sum
+    expression: total_amount
+    timestamp: order_date
+    dimensions:
+      - order_date
+      - customer_id
+      - store_id
+    filters:
+      - field: status
+        operator: "!="
+        value: "cancelled"
+
+  - name: total_orders
+    label: Total Orders
+    model: ref('fact_orders')
+    description: Count of all delivered orders
+    calculation_method: count
+    timestamp: order_date
+    dimensions:
+      - order_date
+      - customer_id
+      - store_id
+    filters:
+      - field: status
+        operator: "="
+        value: "delivered"
+
+  - name: average_order_value
+    label: Average Order Value
+    model: ref('fact_orders')
+    description: Average revenue per order
+    calculation_method: average
+    expression: total_amount
+    timestamp: order_date
+    dimensions:
+      - order_date
+      - customer_id
+      - store_id
+
+  - name: total_profit
+    label: Total Profit
+    model: ref('fact_order_items')
+    description: Total profit across all order items
+    calculation_method: sum
+    expression: profit
+    timestamp: order_date
+    dimensions:
+      - order_date
+      - product_id
+      - category
+
+  - name: profit_margin
+    label: Profit Margin %
+    model: ref('fact_order_items')
+    description: Profit as percentage of revenue
+    calculation_method: derived
+    expression: sum(profit) * 100.0 / sum(net_line_total)
+    timestamp: order_date
+    dimensions:
+      - order_date
+      - category
